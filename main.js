@@ -79,8 +79,17 @@ function handleLoadedTexture(texture) {
     //noinspection JSCheckFunctionSignatures
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.hint(gl.GENERATE_MIPMAP_HINT, gl.NICEST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+    let ext = null;
+    ext = ext ? ext : gl.getExtension("MOZ_EXT_texture_filter_anisotropic");
+    ext = ext ? ext : gl.getExtension("WEBKIT_EXT_texture_filter_anisotropic");
+    ext = ext ? ext : gl.getExtension("EXT_texture_filter_anisotropic");
+    if(ext) {
+        gl.texParameterf(gl.TEXTURE_2D, ext.TEXTURE_MAX_ANISOTROPY_EXT, 16);
+    }
     gl.bindTexture(gl.TEXTURE_2D, null);
 }
 
