@@ -183,6 +183,7 @@ function tick() {
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 1000, pMatrix);
     mat4.identity(mvMatrix);
     mat4.rotate(mvMatrix, -shiftSpeed * 10, [0, 1, 0]);
+    mat4.rotate(mvMatrix, shiftSpeed * 20, [0, 0, 1]);
     mat4.scale(mvMatrix, [20, 20, 200]);
     gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
